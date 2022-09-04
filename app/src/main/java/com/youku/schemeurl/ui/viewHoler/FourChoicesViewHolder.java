@@ -1,13 +1,10 @@
 package com.youku.schemeurl.ui.viewHoler;
 
 import android.view.View;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.youku.schemeurl.R;
 

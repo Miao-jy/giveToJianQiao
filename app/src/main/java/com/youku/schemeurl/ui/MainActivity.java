@@ -1,11 +1,5 @@
 package com.youku.schemeurl.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -14,25 +8,25 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.youku.schemeurl.R;
-import com.youku.schemeurl.model.ActionBean;
 import com.youku.schemeurl.model.constant.ActionBeanConstant;
 import com.youku.schemeurl.present.Present;
 import com.youku.schemeurl.present.PresentImpl;
 import com.youku.schemeurl.ui.adapter.ParamRecyclerViewAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MyView, View.OnClickListener{
 

@@ -39,7 +39,9 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
             case EditTextViewHolder.EDIT_TEXT_VIEW_HOLDER_VIEW_TYPE:
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.recyclerview_item_input, parent, false);
-                return new EditTextViewHolder(view);
+                EditTextViewHolder editTextViewHolder = new EditTextViewHolder(view);
+                editTextViewHolder.setIsRecyclable(false);
+                return editTextViewHolder;
             case FourChoicesViewHolder.FOUR_CHOICES_VIEW_HOLDER_VIEW_TYPE:
                 View select = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.recyclerview_item_select, parent, false);
@@ -57,27 +59,24 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                 EditTextViewHolder editTextViewHolder = (EditTextViewHolder)holder;
                 editTextViewHolder.getParamName().setText(description);
                 EditText editText = editTextViewHolder.getParamEditText();
-                TextWatcher textWatcher = (new TextWatcher() {
+                if (dataList.get(position).getValue() != null) {
+                    editText.setText(dataList.get(position).getValue().toString());
+                }
+                editTextViewHolder.getParamEditText().addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
                     }
 
                     @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        present.updateData(type, editable.toString());
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        present.updateData(type, s.toString());
                         present.updateUrl();
                     }
-                });
-                editText.setOnFocusChangeListener((v, hasFocus) -> {
-                    if (hasFocus) {
-                        editText.addTextChangedListener(textWatcher);
-                    } else {
-                        editText.removeTextChangedListener(textWatcher);
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
                     }
                 });
                 break;
@@ -94,11 +93,15 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                     radioButton.setId((type << 3) + i);
                     String value = fixedValues.get(i);
                     radioButton.setText(value);
-                    radioGroup.check((type << 3) + i);
+                    if (dataList.get(position).getValue() != null && dataList.get(position).getValue().toString().equals(value)) {
+                        radioButton.setChecked(true);
+                    }
                     radioGroup.addView(radioButton, buttonLayoutParams);
                     radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                        present.updateData(dataList.get(position).getType(), value);
-                        present.updateUrl();
+                        if (isChecked) {
+                            present.updateData(dataList.get(position).getType(), value);
+                            present.updateUrl();
+                        }
                     });
                 }
                 break;
@@ -125,10 +128,10 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        ActionBean actionBean = dataList.get(position);
+        ActionBean<?> actionBean = dataList.get(position);
         if (actionBean.getHasFixedValues()) {
             return FourChoicesViewHolder.FOUR_CHOICES_VIEW_HOLDER_VIEW_TYPE;
-        };
+        }
         return EditTextViewHolder.EDIT_TEXT_VIEW_HOLDER_VIEW_TYPE;
     }
 

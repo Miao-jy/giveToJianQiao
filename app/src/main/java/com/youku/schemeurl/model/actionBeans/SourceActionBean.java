@@ -4,8 +4,6 @@ import com.youku.schemeurl.model.ActionBean;
 import com.youku.schemeurl.model.IAction;
 import com.youku.schemeurl.model.constant.ActionBeanConstant;
 
-import java.util.HashMap;
-
 public class SourceActionBean extends ActionBean<String> implements IAction<String> {
 
     public SourceActionBean() {
