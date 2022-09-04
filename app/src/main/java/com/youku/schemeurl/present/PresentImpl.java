@@ -37,6 +37,21 @@ public class PresentImpl implements Present {
         this.model.deleteActionBean(type);
     }
 
+    @Override
+    public List<String> getDescription() {
+        return this.model.getDescriptionList();
+    }
+
+    @Override
+    public void insertDescription(String description) {
+        this.model.insertDescription(description);
+    }
+
+    @Override
+    public void deleteDescription(String description) {
+        this.model.deleteDescription(description);
+    }
+
     public String getUrl() {
         StringBuilder sb = new StringBuilder();
         sb.append("youku://play?");

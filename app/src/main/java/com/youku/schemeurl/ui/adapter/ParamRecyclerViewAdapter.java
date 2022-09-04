@@ -5,6 +5,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +56,8 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
             case EditTextViewHolder.EDIT_TEXT_VIEW_HOLDER_VIEW_TYPE:
                 EditTextViewHolder editTextViewHolder = (EditTextViewHolder)holder;
                 editTextViewHolder.getParamName().setText(description);
-                editTextViewHolder.getParamEditText().addTextChangedListener(new TextWatcher() {
+                EditText editText = editTextViewHolder.getParamEditText();
+                TextWatcher textWatcher = (new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -61,13 +65,19 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        present.updateData(type, charSequence.toString());
-                        present.updateUrl();
                     }
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-
+                        present.updateData(type, editable.toString());
+                        present.updateUrl();
+                    }
+                });
+                editText.setOnFocusChangeListener((v, hasFocus) -> {
+                    if (hasFocus) {
+                        editText.addTextChangedListener(textWatcher);
+                    } else {
+                        editText.removeTextChangedListener(textWatcher);
                     }
                 });
                 break;
@@ -75,30 +85,20 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                 FourChoicesViewHolder fourChoicesViewHolder = (FourChoicesViewHolder)holder;
                 fourChoicesViewHolder.getParamName().setText(description);
                 List<String> fixedValues = dataList.get(position).getFixedValues();
-                if (fixedValues != null) {
-                    fourChoicesViewHolder.getRadioOne().setText(fixedValues.get(0));
-                    fourChoicesViewHolder.getRadioTwo().setText(fixedValues.get(1));
-                    fourChoicesViewHolder.getRadioThree().setText(fixedValues.get(2));
-                    fourChoicesViewHolder.getRadioFour().setText(fixedValues.get(3));
+                RadioGroup radioGroup = fourChoicesViewHolder.getRadioGroup();
+                RadioButton radioButton;
+                RadioGroup.LayoutParams buttonLayoutParams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                for (int i = 0; i < fixedValues.size(); i++) {
+                    radioButton = new RadioButton(radioGroup.getContext());
+                    radioButton.setId(i);
+                    String value = fixedValues.get(i);
+                    radioButton.setText(value);
+                    radioGroup.addView(radioButton, buttonLayoutParams);
+                    radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        present.updateData(dataList.get(position).getType(), value);
+                        present.updateUrl();
+                    });
                 }
-                fourChoicesViewHolder.getRadioGroup().setOnCheckedChangeListener((group, checkedId) -> {
-                    // Check which radio button was clicked
-                    switch(checkedId) {
-                        case R.id.radio_one:
-                            present.updateData(ActionBeanConstant.DETAILACTION_TYPE, ActionBeanConstant.DETAILACTION_VALUE_ONE);
-                            break;
-                        case R.id.radio_two:
-                            present.updateData(ActionBeanConstant.DETAILACTION_TYPE, ActionBeanConstant.DETAILACTION_VALUE_TWO);
-                            break;
-                        case R.id.radio_three:
-                            present.updateData(ActionBeanConstant.DETAILACTION_TYPE, ActionBeanConstant.DETAILACTION_VALUE_THREE);
-                            break;
-                        case R.id.radio_four:
-                            present.updateData(ActionBeanConstant.DETAILACTION_TYPE, ActionBeanConstant.DETAILACTION_VALUE_FOUR);
-                            break;
-                    }
-                    present.updateUrl();
-                });
                 break;
         }
         if(type != ActionBeanConstant.SOURCE_TYPE && type != ActionBeanConstant.VID_TYPE) {

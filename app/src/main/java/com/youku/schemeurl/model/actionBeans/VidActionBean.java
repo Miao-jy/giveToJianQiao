@@ -11,8 +11,8 @@ public class VidActionBean extends ActionBean<String> implements IAction<String>
     public VidActionBean() {
         this.type = ActionBeanConstant.VID_TYPE;
         this.key = ActionBeanConstant.VID_KEY;
-        this.description = "播放指定视频必备参数";
-        this.version = "1.0";
+        this.description = ActionBeanConstant.VID_DESCRIPTION;
+        this.version = ActionBeanConstant.VID_VERSION;
         this.hasFixedValues = false;
     }
 

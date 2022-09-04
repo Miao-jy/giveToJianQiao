@@ -14,6 +14,12 @@ public interface Present {
 
     void deleteData(int type);
 
+    List<String> getDescription();
+
+    void insertDescription(String description);
+
+    void deleteDescription(String description);
+
     String getUrl();
 
     void updateUrl();

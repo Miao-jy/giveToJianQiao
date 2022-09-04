@@ -11,4 +11,10 @@ public interface Model {
     void insertActionBean(int type);
 
     void deleteActionBean(int type);
+
+    List<String> getDescriptionList();
+
+    void insertDescription(String description);
+
+    void deleteDescription(String description);
 }

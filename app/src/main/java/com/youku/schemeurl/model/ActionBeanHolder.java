@@ -1,6 +1,7 @@
 package com.youku.schemeurl.model;
 
 import com.youku.schemeurl.model.actionBeans.DetailActionActionBean;
+import com.youku.schemeurl.model.actionBeans.ForceOpenDanmuActionBean;
 import com.youku.schemeurl.model.actionBeans.ShowidActionBean;
 import com.youku.schemeurl.model.actionBeans.SourceActionBean;
 import com.youku.schemeurl.model.actionBeans.VidActionBean;
@@ -16,11 +17,14 @@ public class ActionBeanHolder implements Model{
 
     // 存放要用于生成url的actionBean实例对象
     private final List<ActionBean<?>> actionBeanList = new ArrayList<>();
+    // 存放加号对应的list
+    private final List<String> descriptionList;
 
     public ActionBeanHolder() {
         // 默认两个必选参数
         actionBeanList.add(new SourceActionBean());
         actionBeanList.add(new VidActionBean());
+        descriptionList = ActionBeanConstant.getAllDescriptionList();
     }
 
     @Override
@@ -63,6 +67,9 @@ public class ActionBeanHolder implements Model{
             case ActionBeanConstant.DETAILACTION_TYPE:
                 actionBeanList.add(new DetailActionActionBean());
                 break;
+            case ActionBeanConstant.FORCE_OPEN_DANMU_TYPE:
+                actionBeanList.add(new ForceOpenDanmuActionBean());
+                break;
         }
     }
 
@@ -74,6 +81,24 @@ public class ActionBeanHolder implements Model{
                 break;
             }
         }
+    }
+
+    @Override
+    public List<String> getDescriptionList() {
+        return this.descriptionList;
+    }
+
+    @Override
+    public void insertDescription(String description) {
+        for (String d : descriptionList) {
+            if (d.equals(description)) return;
+        }
+        this.descriptionList.add(description);
+    }
+
+    @Override
+    public void deleteDescription(String description) {
+        this.descriptionList.remove(description);
     }
 
     /**

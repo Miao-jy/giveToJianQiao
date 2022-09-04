@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
             builder.setPositiveButton("确定", (dialog, which) -> {
                 present.deleteData(type);
                 paramRecyclerViewAdapter.updateDataList();
+                present.insertDescription(ActionBeanConstant.typeToDescription(type));
             });
             builder.setNegativeButton("取消", ((dialog, which) -> {}));
             builder.create().show();
@@ -100,15 +101,18 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
      */
     private void initSelectPopup() {
         ListView listView = new ListView(this);
-        ArrayAdapter<String> testDataAdapter = new ArrayAdapter<>(this, R.layout.popup_text_item, ActionBeanConstant.getAllDescriptionList());
+        ArrayAdapter<String> testDataAdapter = new ArrayAdapter<>(this, R.layout.popup_text_item, present.getDescription());
         listView.setAdapter(testDataAdapter);
 
         // 设置ListView点击事件监听
         listView.setOnItemClickListener((parent, view, position, id) -> {
             // 在这里获取item数据
-            int type = ActionBeanConstant.getAllTypeList().get(position);
+            String description = ActionBeanConstant.getAllDescriptionList().get(position);
+            int type = ActionBeanConstant.descriptionToType(description);
             present.insertData(type);
             paramRecyclerViewAdapter.updateDataList();
+            present.deleteDescription(description);
+//            testDataAdapter.notifyDataSetChanged();
             // 选择完后关闭popup窗口
             typeSelectPopup.dismiss();
         });
