@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
         // 设置ListView点击事件监听
         listView.setOnItemClickListener((parent, view, position, id) -> {
             // 在这里获取item数据
-            String description = ActionBeanConstant.getAllDescriptionList().get(position);
+            String description = present.getDescription().get(position);
             int type = ActionBeanConstant.descriptionToType(description);
             present.insertData(type);
             paramRecyclerViewAdapter.updateDataList();

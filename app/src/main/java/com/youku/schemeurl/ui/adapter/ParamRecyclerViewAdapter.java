@@ -86,13 +86,15 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                 fourChoicesViewHolder.getParamName().setText(description);
                 List<String> fixedValues = dataList.get(position).getFixedValues();
                 RadioGroup radioGroup = fourChoicesViewHolder.getRadioGroup();
+                radioGroup.removeAllViews();
                 RadioButton radioButton;
                 RadioGroup.LayoutParams buttonLayoutParams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 for (int i = 0; i < fixedValues.size(); i++) {
                     radioButton = new RadioButton(radioGroup.getContext());
-                    radioButton.setId(i);
+                    radioButton.setId((type << 3) + i);
                     String value = fixedValues.get(i);
                     radioButton.setText(value);
+                    radioGroup.check((type << 3) + i);
                     radioGroup.addView(radioButton, buttonLayoutParams);
                     radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         present.updateData(dataList.get(position).getType(), value);
