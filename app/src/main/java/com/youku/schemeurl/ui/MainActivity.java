@@ -8,16 +8,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.youku.schemeurl.R;
 import com.youku.schemeurl.model.ActionBean;
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
     private RecyclerView recyclerView;
     private TextView urlText;
     private ImageView imageView;
+    private Button jumpToUrlButton;
     private ParamRecyclerViewAdapter paramRecyclerViewAdapter;
 
     /** popup窗口 */
@@ -53,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
         urlText = findViewById(R.id.urlText);
         imageView = findViewById(R.id.addButton);
         imageView.setOnClickListener(this);
+        jumpToUrlButton = findViewById(R.id.jumpToUrl);
+        jumpToUrlButton.setOnClickListener(this);
 
         paramRecyclerViewAdapter = new ParamRecyclerViewAdapter(present);
         paramRecyclerViewAdapter.setOnRemoveListener(type -> {
@@ -91,6 +99,14 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
                 // 使用isShowing()检查popup窗口是否在显示状态
                 if (typeSelectPopup != null && !typeSelectPopup.isShowing()) {
                     typeSelectPopup.showAsDropDown(imageView, 0, 10);
+                }
+                break;
+            case R.id.jumpToUrl:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlText.getText().toString()));
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(this, "跳转失败", Toast.LENGTH_LONG).show();
                 }
                 break;
         }
