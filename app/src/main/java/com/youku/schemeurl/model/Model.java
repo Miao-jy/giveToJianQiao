@@ -17,4 +17,6 @@ public interface Model {
     void insertDescription(String description);
 
     void deleteDescription(String description);
+
+    List<Integer> getDisLongRemoveOrClickAddList();
 }

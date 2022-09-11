@@ -23,4 +23,6 @@ public interface Present {
     String getUrl();
 
     void updateUrl();
+
+    List<Integer> getDisLongRemoveOrClickAdd();
 }

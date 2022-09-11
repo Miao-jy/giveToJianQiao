@@ -99,14 +99,35 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                     radioGroup.addView(radioButton, buttonLayoutParams);
                     radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         if (isChecked) {
+                            if(buttonView.getId() == 835) {
+                                present.insertData(106);
+                                present.insertData(107);
+                            } else if (buttonView.getId() == 832 || buttonView.getId() == 833 || buttonView.getId() == 834) {
+                                present.deleteData(106);
+                                present.deleteData(107);
+                            }
                             present.updateData(dataList.get(position).getType(), value);
                             present.updateUrl();
+                            updateDataList();
                         }
                     });
                 }
                 break;
         }
-        if(type != ActionBeanConstant.SOURCE_TYPE && type != ActionBeanConstant.VID_TYPE) {
+        // 如果不在dis列表里，就添加长按删除的功能, 两种方法共参考。
+/*        for (Integer t : present.getDisLongRemoveOrClickAdd()) {
+            if (type == t) {
+                return;
+            }
+        }
+
+        holder.itemView.setOnLongClickListener(view -> {
+            if (onRemoveListener != null) {
+                onRemoveListener.ondelect(type);
+            }
+            return true;
+        });*/
+        if (!present.getDisLongRemoveOrClickAdd().contains(type)) {
             holder.itemView.setOnLongClickListener(view -> {
                 if (onRemoveListener != null) {
                     onRemoveListener.ondelect(type);

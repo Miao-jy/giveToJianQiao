@@ -2,6 +2,8 @@ package com.youku.schemeurl.model;
 
 import com.youku.schemeurl.model.actionBeans.DetailActionActionBean;
 import com.youku.schemeurl.model.actionBeans.ForceOpenDanmuActionBean;
+import com.youku.schemeurl.model.actionBeans.OpenHalfEncodeUrl;
+import com.youku.schemeurl.model.actionBeans.OpenHalfUrl;
 import com.youku.schemeurl.model.actionBeans.ShowidActionBean;
 import com.youku.schemeurl.model.actionBeans.SourceActionBean;
 import com.youku.schemeurl.model.actionBeans.VidActionBean;
@@ -15,15 +17,17 @@ import java.util.List;
 public class ActionBeanHolder implements Model{
 
     // 存放要用于生成url的actionBean实例对象
-    private final List<ActionBean<?>> actionBeanList = new ArrayList<>();
+    private final List<ActionBean<?>> actionBeanList;
     // 存放加号对应的list
     private final List<String> descriptionList;
+    // 不能长按删除，和不能点击新增的list
+    private final List<Integer> disLongRemoveOrClickAddList;
 
     public ActionBeanHolder() {
         // 默认两个必选参数
-        actionBeanList.add(new SourceActionBean());
-        actionBeanList.add(new VidActionBean());
+        actionBeanList = ActionBeanConstant.getAllActionBeanList();
         descriptionList = ActionBeanConstant.getAllDescriptionList();
+        disLongRemoveOrClickAddList = ActionBeanConstant.getAllDisLongRemoveOrClickAddList();
     }
 
     @Override
@@ -69,6 +73,12 @@ public class ActionBeanHolder implements Model{
             case ActionBeanConstant.FORCE_OPEN_DANMU_TYPE:
                 actionBeanList.add(new ForceOpenDanmuActionBean());
                 break;
+            case ActionBeanConstant.OPEN_HALF_URL_TYPE:
+                actionBeanList.add(new OpenHalfUrl());
+                break;
+            case ActionBeanConstant.OPEN_HALF_ENCODE_URL_TYPE:
+                actionBeanList.add(new OpenHalfEncodeUrl());
+                break;
         }
     }
 
@@ -98,6 +108,11 @@ public class ActionBeanHolder implements Model{
     @Override
     public void deleteDescription(String description) {
         this.descriptionList.remove(description);
+    }
+
+    @Override
+    public List<Integer> getDisLongRemoveOrClickAddList() {
+        return this.disLongRemoveOrClickAddList;
     }
 
     /**

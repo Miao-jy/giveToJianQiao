@@ -52,6 +52,11 @@ public class PresentImpl implements Present {
         this.model.deleteDescription(description);
     }
 
+    @Override
+    public List<Integer> getDisLongRemoveOrClickAdd() {
+        return this.model.getDisLongRemoveOrClickAddList();
+    }
+
     public String getUrl() {
         StringBuilder sb = new StringBuilder();
         sb.append("youku://play?");

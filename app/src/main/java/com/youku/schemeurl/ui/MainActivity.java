@@ -3,6 +3,9 @@ package com.youku.schemeurl.ui;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
     private TextView urlText;
     private ImageView imageView;
     private Button jumpToUrlButton;
+    private Button shareUrlButton;
+    private Button copyButton;
     private ParamRecyclerViewAdapter paramRecyclerViewAdapter;
 
     /** popup窗口 */
@@ -54,7 +59,11 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
         imageView = findViewById(R.id.addButton);
         imageView.setOnClickListener(this);
         jumpToUrlButton = findViewById(R.id.jumpToUrl);
+        shareUrlButton = findViewById(R.id.share);
+        copyButton = findViewById(R.id.copy);
         jumpToUrlButton.setOnClickListener(this);
+        shareUrlButton.setOnClickListener(this);
+        copyButton.setOnClickListener(this);
 
         paramRecyclerViewAdapter = new ParamRecyclerViewAdapter(present);
         paramRecyclerViewAdapter.setOnRemoveListener(type -> {
@@ -102,6 +111,20 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(this, "跳转失败", Toast.LENGTH_LONG).show();
                 }
+                break;
+            case R.id.share:
+                Intent share = new Intent();
+                share.setAction(Intent.ACTION_SEND);
+                share.setType("text/plain");//设置分享内容的类型
+                share.putExtra(Intent.EXTRA_TEXT, urlText.getText().toString());//添加分享内容
+                //创建分享的Dialog
+                startActivity(Intent.createChooser(share, ""));
+                break;
+            case R.id.copy:
+                ClipboardManager clipManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);//获取剪切板管理对象
+                ClipData clipData = ClipData.newPlainText("copy text", urlText.getText().toString());//将数据放到clip对象
+                clipManager.setPrimaryClip(clipData);//将clip对象放到剪切板
+                Toast.makeText(this, "已复制", Toast.LENGTH_LONG).show();
                 break;
         }
     }
