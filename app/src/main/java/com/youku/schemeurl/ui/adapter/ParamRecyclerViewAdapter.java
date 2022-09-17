@@ -30,6 +30,11 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
     private final Present present;
     private OnRemoveListener onRemoveListener;
 
+    public ParamRecyclerViewAdapter(Present present) {
+        this.dataList = present.getDataList();
+        this.present = present;
+    }
+
     public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
         this.onRemoveListener = onRemoveListener;
     }
@@ -174,8 +179,5 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
         void ondelect(int type);
     }
 
-    public ParamRecyclerViewAdapter(Present present) {
-        this.dataList = present.getDataList();
-        this.present = present;
-    }
+
 }

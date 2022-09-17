@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
             builder.setPositiveButton("确定", (dialog, which) -> {
                 present.deleteData(type);
                 paramRecyclerViewAdapter.updateDataList();
-                present.insertDescription(ActionBeanConstant.typeToDescription(type));
+                present.insertDescription(PresentImpl.typeToDescription(type));
             });
             builder.setNegativeButton("取消", ((dialog, which) -> {}));
             builder.create().show();
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
         listView.setOnItemClickListener((parent, view, position, id) -> {
             // 在这里获取item数据
             String description = present.getDescription().get(position);
-            int type = ActionBeanConstant.descriptionToType(description);
+            int type = PresentImpl.descriptionToType(description);
             present.insertData(type);
             paramRecyclerViewAdapter.updateDataList();
             present.deleteDescription(description);

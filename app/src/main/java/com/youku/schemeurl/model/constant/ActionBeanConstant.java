@@ -150,6 +150,7 @@ public class ActionBeanConstant {
     }
 
 
+    //Model层不应直接和MainActivity交互，这两个方法不应让ui拿到，移植到presentLmpl中
     public static int descriptionToType(String description) {
         for (Map.Entry<Integer, List<String>> entry: map.entrySet()) {
             if (entry.getValue().get(1).equals(description)) {

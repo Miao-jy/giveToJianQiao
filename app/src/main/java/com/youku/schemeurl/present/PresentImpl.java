@@ -3,9 +3,11 @@ package com.youku.schemeurl.present;
 import com.youku.schemeurl.model.ActionBean;
 import com.youku.schemeurl.model.ActionBeanHolder;
 import com.youku.schemeurl.model.Model;
+import com.youku.schemeurl.model.constant.ActionBeanConstant;
 import com.youku.schemeurl.ui.MyView;
 
 import java.util.List;
+import java.util.Map;
 
 public class PresentImpl implements Present {
 
@@ -69,6 +71,24 @@ public class PresentImpl implements Present {
             }
         }
         return sb.toString();
+    }
+
+    public static int descriptionToType(String description) {
+        for (Map.Entry<Integer, List<String>> entry : ActionBeanConstant.map.entrySet()) {
+            if (entry.getValue().get(1).equals(description)) {
+                return entry.getKey();
+            }
+        }
+        return 0;
+    }
+
+    public static String typeToDescription(int type) {
+        for (Map.Entry<Integer, List<String>> entry : ActionBeanConstant.map.entrySet()) {
+            if (entry.getKey() == type) {
+                return entry.getValue().get(1);
+            }
+        }
+        return "";
     }
 
     @Override
