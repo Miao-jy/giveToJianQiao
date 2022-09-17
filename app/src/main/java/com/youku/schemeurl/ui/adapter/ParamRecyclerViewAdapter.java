@@ -1,7 +1,9 @@
 package com.youku.schemeurl.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,7 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
         return null;
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         int type = dataList.get(position).getType();
@@ -99,12 +102,23 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                     radioGroup.addView(radioButton, buttonLayoutParams);
                     radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         if (isChecked) {
-                            if(buttonView.getId() == 835) {
-                                present.insertData(106);
-                                present.insertData(107);
-                            } else if (buttonView.getId() == 832 || buttonView.getId() == 833 || buttonView.getId() == 834) {
-                                present.deleteData(106);
-                                present.deleteData(107);
+                            Log.d("choice_id", "type=" + type + "buttonView.getId()=" + buttonView.getId());
+
+                            //选择类型参数的点击事件的联动判断
+                            if (type == 104) {
+                                if (buttonView.getId() == 835) {
+                                    present.insertData(106);
+                                    present.insertData(107);
+                                } else if (buttonView.getId() == 832 || buttonView.getId() == 833 || buttonView.getId() == 834) {
+                                    present.deleteData(106);
+                                    present.deleteData(107);
+                                }
+                            } else if (type == 112) {
+                                if (buttonView.getId() == 896) {
+                                    present.insertData(113);
+                                } else if (buttonView.getId() == 897 || buttonView.getId() == 898) {
+                                    present.deleteData(113);
+                                }
                             }
                             present.updateData(dataList.get(position).getType(), value);
                             present.updateUrl();
@@ -115,7 +129,7 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                 break;
         }
         // 如果不在dis列表里，就添加长按删除的功能, 两种方法共参考。
-/*        for (Integer t : present.getDisLongRemoveOrClickAdd()) {
+       for (Integer t : present.getDisLongRemoveOrClickAdd()) {
             if (type == t) {
                 return;
             }
@@ -126,15 +140,15 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                 onRemoveListener.ondelect(type);
             }
             return true;
-        });*/
-        if (!present.getDisLongRemoveOrClickAdd().contains(type)) {
-            holder.itemView.setOnLongClickListener(view -> {
-                if (onRemoveListener != null) {
-                    onRemoveListener.ondelect(type);
-                }
-                return true;
-            });
-        }
+        });
+//        if (!present.getDisLongRemoveOrClickAdd().contains(type)) {
+//            holder.itemView.setOnLongClickListener(view -> {
+//                if (onRemoveListener != null) {
+//                    onRemoveListener.ondelect(type);
+//                }
+//                return true;
+//            });
+//        }
     }
 
     @Override

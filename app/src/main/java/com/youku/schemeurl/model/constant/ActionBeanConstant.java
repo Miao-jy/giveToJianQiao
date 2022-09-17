@@ -53,6 +53,44 @@ public class ActionBeanConstant {
     public static final String OPEN_HALF_ENCODE_URL_DESCRIPTION = "打开半屏H5且需要Encode的url";
     public static final String OPEN_HALF_ENCODE_URL_VERSION = "1.0";
 
+    public static final int AK_TYPE = 108;
+    public static final String AK_KEY = "ak";
+    public static final String AK_DESCRIPTION = "免流参数";
+    public static final String AK_VERSION = "1.0";
+
+    public static final int POINT_TYPE = 109;
+    public static final String POINT_KEY = "point";
+    public static final String POINT_DESCRIPTION = "指定起播时间(秒)";
+    public static final String POINT_VERSION = "1.0";
+
+    public static final int BACK_FINISH_TYPE = 110;
+    public static final String BACK_FINISH_KEY = "backFinish";
+    public static final String BACK_FINISH_DESCRIPTION = "换端启动播放页\nfalse为引导到首页\nture表示不引导到首页";
+    public static final String BACK_FINISH_VERSION = "1.0";
+    public static final String BACK_FINISH_VALUE_ONE = "true";
+    public static final String BACK_FINISH_VALUE_TWO = "false";
+
+    public static final int POLITICS_SENSITIVE_TYPE = 111;
+    public static final String POLITICS_SENSITIVE_KEY = "politicsSensitive";
+    public static final String POLITICS_SENSITIVE_DESCRIPTION = "政治敏感\nfalse默认不传\nture表示判定为政治敏感";
+    public static final String POLITICS_SENSITIVE_VERSION = "1.0";
+    public static final String POLITICS_SENSITIVE_VALUE_ONE = "true";
+    public static final String POLITICS_SENSITIVE_VALUE_TWO = "false";
+
+    public static final int PLAY_MODE_TYPE = 112;
+    public static final String PLAY_MODE_KEY = "playMode";
+    public static final String PLAY_MODE_DESCRIPTION = "播放设定画面\ncontentSurvey:观影会\n" +
+            "pugv:中视频播放页\ndsp:换端播放页";
+    public static final String PLAY_MODE_VERSION = "1.0";
+    public static final String PLAY_MODE_VALUE_ONE = "contentSurvey";
+    public static final String PLAY_MODE_VALUE_TWO = "pugv";
+    public static final String PLAY_MODE_VALUE_THREE = "dsp";
+
+    public static final int CONTENT_SURVEY_ID_TYPE = 113;
+    public static final String CONTENT_SURVEY_ID_KEY = "contentSurveyId";
+    public static final String CONTENT_SURVEY_ID_DESCRIPTION = "观影会ID";
+    public static final String CONTENT_SURVEY_ID_VERSION = "1.0";
+
     public static Map<Integer, List<String>> map = new HashMap<>();
 
     static {
@@ -61,8 +99,15 @@ public class ActionBeanConstant {
         map.put(SHOWID_TYPE, Arrays.asList(SHOWID_KEY, SHOWID_DESCRIPTION, SHOWID_VERSION));
         map.put(DETAILACTION_TYPE, Arrays.asList(DETAILACTION_KEY, DETAILACTION_DESCRIPTION, DETAILACTION_VERSION));
         map.put(FORCE_OPEN_DANMU_TYPE, Arrays.asList(FOUCE_OPEN_DANMU_KEY, FOUCE_OPEN_DANMU_DESCRIPTION, FOUCE_OPEN_DANMU_VERSION));
-        map.put(OPEN_HALF_URL_TYPE, Arrays.asList(OPEN_HALF_URL_KEY,OPEN_HALF_URL_DESCRIPTION,OPEN_HALF_URL_VERSION));
+        map.put(OPEN_HALF_URL_TYPE, Arrays.asList(OPEN_HALF_URL_KEY, OPEN_HALF_URL_DESCRIPTION, OPEN_HALF_URL_VERSION));
         map.put(OPEN_HALF_ENCODE_URL_TYPE, Arrays.asList(OPEN_HALF_ENCODE_URL_KEY, OPEN_HALF_ENCODE_URL_DESCRIPTION, OPEN_HALF_ENCODE_URL_VERSION));
+        map.put(AK_TYPE, Arrays.asList(AK_KEY, AK_DESCRIPTION, AK_VERSION));
+//        map.put(POINT_TYPE, Arrays.asList(POINT_KEY, POINT_DESCRIPTION, POINT_VERSION));
+        map.put(BACK_FINISH_TYPE, Arrays.asList(BACK_FINISH_KEY, BACK_FINISH_DESCRIPTION, BACK_FINISH_VERSION));
+        map.put(POLITICS_SENSITIVE_TYPE, Arrays.asList(POLITICS_SENSITIVE_KEY, POLITICS_SENSITIVE_DESCRIPTION, POLITICS_SENSITIVE_VERSION));
+        map.put(PLAY_MODE_TYPE, Arrays.asList(PLAY_MODE_KEY, PLAY_MODE_DESCRIPTION, PLAY_MODE_VERSION));
+        map.put(CONTENT_SURVEY_ID_TYPE, Arrays.asList(CONTENT_SURVEY_ID_KEY, CONTENT_SURVEY_ID_DESCRIPTION, CONTENT_SURVEY_ID_VERSION));
+
     }
 
     public static List<Integer> getAllTypeList() {
@@ -83,11 +128,12 @@ public class ActionBeanConstant {
 
     public static List<String> getAllDescriptionList() {
         ArrayList<String> descriptionList = new ArrayList<>();
-        for (Map.Entry<Integer, List<String>> entry: map.entrySet()) {
+        for (Map.Entry<Integer, List<String>> entry : map.entrySet()) {
             if (entry.getKey() == SOURCE_TYPE
                     || entry.getKey() == VID_TYPE
                     || entry.getKey() == OPEN_HALF_URL_TYPE
-                    || entry.getKey() == OPEN_HALF_ENCODE_URL_TYPE) continue;
+                    || entry.getKey() == OPEN_HALF_ENCODE_URL_TYPE
+                    || entry.getKey() == CONTENT_SURVEY_ID_TYPE) continue;
             descriptionList.add(entry.getValue().get(1));
         }
         return descriptionList;
@@ -99,6 +145,7 @@ public class ActionBeanConstant {
         disLongRemoveOrClickAddList.add(VID_TYPE);
         disLongRemoveOrClickAddList.add(OPEN_HALF_URL_TYPE);
         disLongRemoveOrClickAddList.add(OPEN_HALF_ENCODE_URL_TYPE);
+        disLongRemoveOrClickAddList.add(CONTENT_SURVEY_ID_TYPE);
         return disLongRemoveOrClickAddList;
     }
 

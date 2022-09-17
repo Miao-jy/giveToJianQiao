@@ -1,9 +1,15 @@
 package com.youku.schemeurl.model;
 
+import com.youku.schemeurl.model.actionBeans.AkActionBean;
+import com.youku.schemeurl.model.actionBeans.BackFinishActionBean;
+import com.youku.schemeurl.model.actionBeans.ContentSurveyId;
 import com.youku.schemeurl.model.actionBeans.DetailActionActionBean;
 import com.youku.schemeurl.model.actionBeans.ForceOpenDanmuActionBean;
 import com.youku.schemeurl.model.actionBeans.OpenHalfEncodeUrl;
 import com.youku.schemeurl.model.actionBeans.OpenHalfUrl;
+import com.youku.schemeurl.model.actionBeans.PlayModeActionBean;
+import com.youku.schemeurl.model.actionBeans.PointActionBean;
+import com.youku.schemeurl.model.actionBeans.PoliticsSensitiveActionBean;
 import com.youku.schemeurl.model.actionBeans.ShowidActionBean;
 import com.youku.schemeurl.model.actionBeans.SourceActionBean;
 import com.youku.schemeurl.model.actionBeans.VidActionBean;
@@ -40,19 +46,22 @@ public class ActionBeanHolder implements Model{
      */
     @Override
     public void updateActionBean(int type, String value) {
-        actionBeanList.forEach( actionBean -> {
+        actionBeanList.forEach(actionBean -> {
             if (actionBean.getType() == type) {
                 ParameterizedType type1 = (ParameterizedType) actionBean.getClass().getGenericSuperclass();
-                Type actualTypeArgument = type1.getActualTypeArguments()[0];
-                if (String.class.equals(actualTypeArgument)) {
-                    ActionBean<String> stringBean = (ActionBean<String>) actionBean;
-                    stringBean.setValue(value);
-                } else if (Boolean.class.equals(actualTypeArgument)) {
-                    ActionBean<Boolean> booleanBean = (ActionBean<Boolean>) actionBean;
-                    booleanBean.setValue(new Boolean(value));
-                } else if (Integer.class.equals(actualTypeArgument)) {
-                    ActionBean<Integer> integerBean = (ActionBean<Integer>) actionBean;
-                    integerBean.setValue(new Integer(value));
+                if (type1 != null) {
+                    Type actualTypeArgument = type1.getActualTypeArguments()[0];
+                    if (String.class.equals(actualTypeArgument)) {
+                        ActionBean<String> stringBean = (ActionBean<String>) actionBean;
+                        stringBean.setValue(value);
+                    } else if (Boolean.class.equals(actualTypeArgument)) {
+                        ActionBean<Boolean> booleanBean = (ActionBean<Boolean>) actionBean;
+                        booleanBean.setValue(Boolean.valueOf(value));
+                    } else if (Integer.class.equals(actualTypeArgument)) {
+                        ActionBean<Integer> integerBean = (ActionBean<Integer>) actionBean;
+                        integerBean.setValue(Integer.valueOf(value));
+                    }
+
                 }
             }
         });
@@ -78,6 +87,24 @@ public class ActionBeanHolder implements Model{
                 break;
             case ActionBeanConstant.OPEN_HALF_ENCODE_URL_TYPE:
                 actionBeanList.add(new OpenHalfEncodeUrl());
+                break;
+            case ActionBeanConstant.AK_TYPE:
+                actionBeanList.add(new AkActionBean());
+                break;
+            case ActionBeanConstant.POINT_TYPE:
+                actionBeanList.add(new PointActionBean());
+                break;
+            case ActionBeanConstant.BACK_FINISH_TYPE:
+                actionBeanList.add(new BackFinishActionBean());
+                break;
+            case ActionBeanConstant.POLITICS_SENSITIVE_TYPE:
+                actionBeanList.add(new PoliticsSensitiveActionBean());
+                break;
+            case ActionBeanConstant.PLAY_MODE_TYPE:
+                actionBeanList.add(new PlayModeActionBean());
+                break;
+            case ActionBeanConstant.CONTENT_SURVEY_ID_TYPE:
+                actionBeanList.add(new ContentSurveyId());
                 break;
         }
     }
