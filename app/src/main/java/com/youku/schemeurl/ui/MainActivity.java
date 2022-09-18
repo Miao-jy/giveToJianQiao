@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
                 present.deleteData(type);
                 paramRecyclerViewAdapter.updateDataList();
                 present.insertDescription(present.typeToDescription(type));
+                present.updateUrl();
             });
             builder.setNegativeButton("取消", ((dialog, which) -> {}));
             builder.create().show();

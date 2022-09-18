@@ -29,4 +29,6 @@ public interface Present {
     String typeToDescription(int type);
 
     List<Integer> getDisLongRemoveOrClickAdd();
+
+    Boolean detectInput(int type, String input);
 }

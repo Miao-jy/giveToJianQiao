@@ -6,8 +6,11 @@ import com.youku.schemeurl.model.Model;
 import com.youku.schemeurl.model.constant.ActionBeanConstant;
 import com.youku.schemeurl.ui.MyView;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PresentImpl implements Present {
 
@@ -98,4 +101,30 @@ public class PresentImpl implements Present {
         String url = getUrl();
         this.myView.setUrlText(url);
     }
+
+
+    @Override
+    public Boolean detectInput(int type, String input) {
+        Type actionBeanType = this.model.getActionBeanType(type);
+        if (actionBeanType.equals(String.class)) {
+            return detectNoChinese(input);
+        }
+        if (actionBeanType.equals(Integer.class)) {
+            return detectOnlyNum(input);
+        }
+        return false;
+    }
+
+    private Boolean detectNoChinese(String input) {
+        Pattern pattern = Pattern.compile("[^\\u4e00-\\u9fa5]+");
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+
+    private Boolean detectOnlyNum(String input) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+
 }

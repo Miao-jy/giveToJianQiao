@@ -46,22 +46,18 @@ public class ActionBeanHolder implements Model{
      */
     @Override
     public void updateActionBean(int type, String value) {
+        Type actualTypeArgument = getActionBeanType(type);
         actionBeanList.forEach(actionBean -> {
             if (actionBean.getType() == type) {
-                ParameterizedType type1 = (ParameterizedType) actionBean.getClass().getGenericSuperclass();
-                if (type1 != null) {
-                    Type actualTypeArgument = type1.getActualTypeArguments()[0];
-                    if (String.class.equals(actualTypeArgument)) {
-                        ActionBean<String> stringBean = (ActionBean<String>) actionBean;
-                        stringBean.setValue(value);
-                    } else if (Boolean.class.equals(actualTypeArgument)) {
-                        ActionBean<Boolean> booleanBean = (ActionBean<Boolean>) actionBean;
-                        booleanBean.setValue(Boolean.valueOf(value));
-                    } else if (Integer.class.equals(actualTypeArgument)) {
-                        ActionBean<Integer> integerBean = (ActionBean<Integer>) actionBean;
-                        integerBean.setValue(Integer.valueOf(value));
-                    }
-
+                if (String.class.equals(actualTypeArgument)) {
+                    ActionBean<String> stringBean = (ActionBean<String>) actionBean;
+                    stringBean.setValue(value);
+                } else if (Boolean.class.equals(actualTypeArgument)) {
+                    ActionBean<Boolean> booleanBean = (ActionBean<Boolean>) actionBean;
+                    booleanBean.setValue(Boolean.valueOf(value));
+                } else if (Integer.class.equals(actualTypeArgument)) {
+                    ActionBean<Integer> integerBean = (ActionBean<Integer>) actionBean;
+                    integerBean.setValue(Integer.valueOf(value));
                 }
             }
         });
@@ -154,6 +150,22 @@ public class ActionBeanHolder implements Model{
             }
         }
         return false;
+    }
+
+    /**
+     *  根据type获取actionBean的类型
+     */
+    @Override
+    public Type getActionBeanType(int type) {
+        for (ActionBean<?> actionBean : actionBeanList) {
+            if (actionBean.getType() == type) {
+                ParameterizedType type1 = (ParameterizedType) actionBean.getClass().getGenericSuperclass();
+                if (type1 != null) {
+                    return type1.getActualTypeArguments()[0];
+                }
+            }
+        }
+        return null;
     }
 }
 

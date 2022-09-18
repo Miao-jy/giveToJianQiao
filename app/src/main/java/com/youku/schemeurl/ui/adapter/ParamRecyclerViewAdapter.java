@@ -2,6 +2,8 @@ package com.youku.schemeurl.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +62,7 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
     @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        ActionBean actionBean = dataList.get(position);
         int type = dataList.get(position).getType();
         String description = dataList.get(position).getDescription();
         switch (holder.viewType) {
@@ -70,7 +73,22 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                 if (dataList.get(position).getValue() != null) {
                     editText.setText(dataList.get(position).getValue().toString());
                 }
-                editTextViewHolder.getParamEditText().addTextChangedListener(new TextWatcher() {
+
+                // 检验：无法输入汉字，或者只能输入数字
+                editText.setFilters(new InputFilter[]{
+                        new myFilter(type)
+//                        (source, start, end, dest, dstart, dend) -> {
+//                            StringBuilder sb = new StringBuilder();
+//                            sb.append(dest.subSequence(0, start))
+//                                    .append(source)
+//                                    .append(dest.subSequence(dend, dest.length()));
+//                            if (!present.detectInput(type, sb.toString())) {
+//                                return "";
+//                            }
+//                            return source;
+//                        }
+                });
+                editText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -179,5 +197,26 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
         void ondelect(int type);
     }
 
+
+    class myFilter implements InputFilter {
+
+        private int type;
+
+        myFilter(int type) {
+            this.type = type;
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(dest.subSequence(0, start))
+                    .append(source)
+                    .append(dest.subSequence(dend, dest.length()));
+            if (!present.detectInput(type, sb.toString())) {
+                return "";
+            }
+            return source;
+        }
+    }
 
 }

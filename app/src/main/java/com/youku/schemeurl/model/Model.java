@@ -1,5 +1,6 @@
 package com.youku.schemeurl.model;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public interface Model {
@@ -27,4 +28,6 @@ public interface Model {
 
     //取到长按删除和不在新增按钮Iist中的LIst
     List<Integer> getDisLongRemoveOrClickAddList();
+
+    Type getActionBeanType(int type);
 }
