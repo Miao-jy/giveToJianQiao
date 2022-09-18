@@ -116,7 +116,7 @@ public class PresentImpl implements Present {
     }
 
     private Boolean detectNoChinese(String input) {
-        Pattern pattern = Pattern.compile("[^\\u4e00-\\u9fa5]+");
+        Pattern pattern = Pattern.compile("[^\\s\\r\\n\\u4e00-\\u9fa5]+");
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
     }
