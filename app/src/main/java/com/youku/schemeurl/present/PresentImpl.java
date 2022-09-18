@@ -73,7 +73,8 @@ public class PresentImpl implements Present {
         return sb.toString();
     }
 
-    public static int descriptionToType(String description) {
+    @Override
+    public int descriptionToType(String description) {
         for (Map.Entry<Integer, List<String>> entry : ActionBeanConstant.map.entrySet()) {
             if (entry.getValue().get(1).equals(description)) {
                 return entry.getKey();
@@ -82,7 +83,8 @@ public class PresentImpl implements Present {
         return 0;
     }
 
-    public static String typeToDescription(int type) {
+    @Override
+    public String typeToDescription(int type) {
         for (Map.Entry<Integer, List<String>> entry : ActionBeanConstant.map.entrySet()) {
             if (entry.getKey() == type) {
                 return entry.getValue().get(1);

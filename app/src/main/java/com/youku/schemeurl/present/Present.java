@@ -24,5 +24,9 @@ public interface Present {
 
     void updateUrl();
 
+    int descriptionToType(String description);
+
+    String typeToDescription(int type);
+
     List<Integer> getDisLongRemoveOrClickAdd();
 }
