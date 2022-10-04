@@ -1,10 +1,9 @@
-package com.youku.schemeurl.ui;
+package com.youku.schemeurl.ui.activity;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -26,9 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.youku.schemeurl.R;
-import com.youku.schemeurl.model.constant.ActionBeanConstant;
 import com.youku.schemeurl.present.Present;
 import com.youku.schemeurl.present.PresentImpl;
+import com.youku.schemeurl.ui.MyView;
 import com.youku.schemeurl.ui.adapter.ParamRecyclerViewAdapter;
 
 public class MainActivity extends AppCompatActivity implements MyView, View.OnClickListener{
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
     private Button shareUrlButton;
     private Button copyButton;
     private ParamRecyclerViewAdapter paramRecyclerViewAdapter;
+    private Button jumpToReverse;
 
     /** popup窗口 */
     private PopupWindow typeSelectPopup;
@@ -61,9 +61,11 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
         jumpToUrlButton = findViewById(R.id.jumpToUrl);
         shareUrlButton = findViewById(R.id.share);
         copyButton = findViewById(R.id.copy);
+        jumpToReverse = findViewById(R.id.jumpToReverse);
         jumpToUrlButton.setOnClickListener(this);
         shareUrlButton.setOnClickListener(this);
         copyButton.setOnClickListener(this);
+        jumpToReverse.setOnClickListener(this);
 
         paramRecyclerViewAdapter = new ParamRecyclerViewAdapter(present);
         paramRecyclerViewAdapter.setOnRemoveListener(this::removeActionBean);
@@ -134,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
                 ClipData clipData = ClipData.newPlainText("copy text", urlText.getText().toString());//将数据放到clip对象
                 clipManager.setPrimaryClip(clipData);//将clip对象放到剪切板
                 Toast.makeText(this, "已复制", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.jumpToReverse:
+                startActivity(new Intent(this, ReverseActivity.class));
                 break;
         }
     }
