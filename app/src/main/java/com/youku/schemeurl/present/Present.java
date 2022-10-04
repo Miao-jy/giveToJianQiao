@@ -1,5 +1,7 @@
 package com.youku.schemeurl.present;
 
+import android.text.SpannableStringBuilder;
+
 import com.youku.schemeurl.model.ActionBean;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public interface Present {
 
     void deleteDescription(String description);
 
-    String getUrl();
+    SpannableStringBuilder getUrl();
 
     void updateUrl();
 

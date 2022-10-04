@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
     }
 
     @Override
-    public void setUrlText(String url) {
+    public void setUrlText(SpannableStringBuilder url) {
         urlText.setText(url);
     }
 

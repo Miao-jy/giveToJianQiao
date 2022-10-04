@@ -73,6 +73,7 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
                 if (dataList.get(position).getValue() != null) {
                     editText.setText(dataList.get(position).getValue().toString());
                 }
+                editText.setHint(actionBean.getKey());
 
                 // 检验：无法输入汉字，或者只能输入数字
                 editText.setFilters(new InputFilter[]{

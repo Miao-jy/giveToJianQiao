@@ -1,5 +1,11 @@
 package com.youku.schemeurl.present;
 
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+
 import com.youku.schemeurl.model.ActionBean;
 import com.youku.schemeurl.model.ActionBeanHolder;
 import com.youku.schemeurl.model.Model;
@@ -63,18 +69,24 @@ public class PresentImpl implements Present {
     }
 
     @Override
-    public String getUrl() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("youku://play?");
+    public SpannableStringBuilder getUrl() {
+        SpannableStringBuilder sb = new SpannableStringBuilder("youku://play?");
+        int index = sb.length();
         List<ActionBean<?>> actionBeanList = this.model.getActionBeanList();
         for (int i = 0; i < actionBeanList.size(); i++) {
             ActionBean<?> actionBean = actionBeanList.get(i);
-            sb.append(actionBean.getKey()).append("=").append(actionBean.getValue());
+            String value = "null";
+            if (actionBean.getValue() != null) {
+                value = actionBean.getValue().toString();
+            }
+            sb.append(actionBean.getKey()).append("=").append(value);
+            sb.setSpan(new ForegroundColorSpan(Color.RED), index, sb.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             if(i != actionBeanList.size() - 1) {
                 sb.append("&");
             }
+            index = sb.length();
         }
-        return sb.toString();
+        return sb;
     }
 
     @Override
@@ -99,7 +111,7 @@ public class PresentImpl implements Present {
 
     @Override
     public void updateUrl() {
-        String url = getUrl();
+        SpannableStringBuilder url = getUrl();
         this.myView.setUrlText(url);
     }
 
