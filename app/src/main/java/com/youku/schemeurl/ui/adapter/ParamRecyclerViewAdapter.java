@@ -182,6 +182,7 @@ public class ParamRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolde
     public void updateDataList() {
         this.dataList = present.getDataList();
         notifyDataSetChanged();
+        present.clearRecyclerViewFocus();
     }
 
     @Override

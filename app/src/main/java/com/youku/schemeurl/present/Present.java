@@ -31,4 +31,6 @@ public interface Present {
     List<Integer> getDisLongRemoveOrClickAdd();
 
     Boolean detectInput(int type, String input);
+
+    void clearRecyclerViewFocus();
 }

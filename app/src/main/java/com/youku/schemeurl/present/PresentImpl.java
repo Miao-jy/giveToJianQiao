@@ -61,6 +61,7 @@ public class PresentImpl implements Present {
     public List<Integer> getDisLongRemoveOrClickAdd() {
         return this.model.getDisLongRemoveOrClickAddList();
     }
+
     @Override
     public String getUrl() {
         StringBuilder sb = new StringBuilder();
@@ -127,4 +128,8 @@ public class PresentImpl implements Present {
         return matcher.matches();
     }
 
+    @Override
+    public void clearRecyclerViewFocus() {
+        myView.getRecyclerView().clearFocus();
+    }
 }

@@ -66,19 +66,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
         copyButton.setOnClickListener(this);
 
         paramRecyclerViewAdapter = new ParamRecyclerViewAdapter(present);
-        paramRecyclerViewAdapter.setOnRemoveListener(type -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("确定删除?");
-            builder.setTitle("提示");
-            builder.setPositiveButton("确定", (dialog, which) -> {
-                present.deleteData(type);
-                paramRecyclerViewAdapter.updateDataList();
-                present.insertDescription(present.typeToDescription(type));
-                present.updateUrl();
-            });
-            builder.setNegativeButton("取消", ((dialog, which) -> {}));
-            builder.create().show();
-        });
+        paramRecyclerViewAdapter.setOnRemoveListener(this::removeActionBean);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -90,8 +78,28 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
     }
 
     @Override
+    public void removeActionBean(int type) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定删除?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确定", (dialog, which) -> {
+            present.deleteData(type);
+            paramRecyclerViewAdapter.updateDataList();
+            present.insertDescription(present.typeToDescription(type));
+            present.updateUrl();
+        });
+        builder.setNegativeButton("取消", ((dialog, which) -> {}));
+        builder.create().show();
+    }
+
+    @Override
     public void setUrlText(String url) {
         urlText.setText(url);
+    }
+
+    @Override
+    public RecyclerView getRecyclerView() {
+        return this.recyclerView;
     }
 
     @Override
@@ -133,7 +141,8 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
     /**
      * 初始化popup窗口
      */
-    private void initSelectPopup() {
+    @Override
+    public void initSelectPopup() {
         ListView listView = new ListView(this);
         ArrayAdapter<String> testDataAdapter = new ArrayAdapter<>(this, R.layout.popup_text_item, present.getDescription());
         listView.setAdapter(testDataAdapter);
@@ -145,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
             int type = present.descriptionToType(description);
             present.insertData(type);
             paramRecyclerViewAdapter.updateDataList();
-            recyclerView.clearFocus();
             present.deleteDescription(description);
 //            testDataAdapter.notifyDataSetChanged();
             // 选择完后关闭popup窗口
