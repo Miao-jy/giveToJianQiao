@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
             int type = present.descriptionToType(description);
             present.insertData(type);
             paramRecyclerViewAdapter.updateDataList();
+            recyclerView.clearFocus();
             present.deleteDescription(description);
 //            testDataAdapter.notifyDataSetChanged();
             // 选择完后关闭popup窗口
