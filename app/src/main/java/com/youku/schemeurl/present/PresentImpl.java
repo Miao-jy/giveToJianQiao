@@ -61,7 +61,7 @@ public class PresentImpl implements Present {
     public List<Integer> getDisLongRemoveOrClickAdd() {
         return this.model.getDisLongRemoveOrClickAddList();
     }
-
+    @Override
     public String getUrl() {
         StringBuilder sb = new StringBuilder();
         sb.append("youku://play?");

@@ -29,5 +29,6 @@ public interface Model {
     //取到长按删除和不在新增按钮Iist中的LIst
     List<Integer> getDisLongRemoveOrClickAddList();
 
+    //根据type获取actionBean的类型
     Type getActionBeanType(int type);
 }
